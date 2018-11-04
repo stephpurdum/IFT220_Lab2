@@ -18,6 +18,10 @@ New-NetIPAddress -InterfaceAlias $nicname -IPAddress $ipaddress -AddressFamily I
 # Set the DNS address to ourselves
 Set-DnsClientServerAddress -InterfaceAlias $nicname -ServerAddresses $ipaddress
 
+# Set the DNS address to our loopback
+$dnsaddress = "127.0.0.1"
+Set-DnsClientServerAddress -InterfaceAlias $nicname -ServerAddresses $dnsaddress
+
 # Make sure the timezone is set correctly
 Get-TimeZone | select -ExpandProperty "DisplayName"
 Write-Host -ForegroundColor yellow "Is that the correct timezone?"
