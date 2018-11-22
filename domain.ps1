@@ -1,4 +1,4 @@
-# Build a new DC in a new Forest
+# Builds a new DC in a new Forest
 # Assumption: new machine uses DHCP
 
 # Change from DHCP to static IP using the same IP
@@ -34,8 +34,15 @@ $Readhost = Read-Host -Prompt ("y | n ")
      }
 
 # Install the AD Services
-Write-Host -ForegroundColor yellow "What's the domain name going to be?  It should be ad.<your ASU email prefix>.lan" 
-$domainname = Read-Host -Prompt (" ")
+Do {
+Write-Host -ForegroundColor yellow "What's the domain name going to be? It should be"
+Write-Host -ForegroundColor yellow "ad.<your ASUrite ID>.lan, for example"
+Write-Host -ForegroundColor yellow "ad.4sparky.lan"
+$domainname = Read-Host "ad.<your ASUrite ID >.lan" 
+} until ($domainname.StartsWith("ad."))
+
+Write-Host -ForegroundColor Red "The machine will reboot on it own."
+
 Install-WindowsFeature AD-Domain-Services -IncludeManagementTools | Out-Null
 Install-ADDSForest -DomainName $domainname
 
